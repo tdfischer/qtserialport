@@ -463,6 +463,14 @@ bool QSerialPortPrivate::startAsyncCommunication()
             return false;
         }
     }
+
+    COMSTAT statBuf;
+    ClearCommError(handle, Q_NULLPTR, &statBuf);
+
+    if (statBuf.cbInQue > 0) {
+        startAsyncRead();
+    }
+
     return true;
 }
 
